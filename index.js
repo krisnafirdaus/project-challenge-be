@@ -14,6 +14,12 @@ app.get('/users', (req, res) => {
 
 app.post('/users', (req, res) => {
     const { username, firstName, lastName } = req.body;
+
+    const existingUser = users.find(u => u.username === username);
+    if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
     users.push({ username, firstName, lastName });
     res.status(201).json({ message: 'User created' });
 });
